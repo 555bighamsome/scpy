@@ -1,0 +1,18 @@
+[
+  {
+    "category_a": "After change: best action changed",
+    "category_b": "Stable-period loss",
+    "difference": 0.007452786498327705,
+    "ci_low": -0.022363120517293444,
+    "ci_high": 0.03580631337916616,
+    "participants": 236
+  },
+  {
+    "category_a": "After change: best action unchanged",
+    "category_b": "Stable-period loss",
+    "difference": 0.00027664189758684247,
+    "ci_low": -0.02975124572781453,
+    "ci_high": 0.029380683678903775,
+    "participants": 227
+  }
+]

@@ -5,6 +5,8 @@ env/
 # Ignore Python cache
 __pycache__/
 .ipynb_checkpoints/
+.analysis_work/
+.venv/
 
 # Ignore data
 data/

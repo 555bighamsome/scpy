@@ -1,0 +1,31 @@
+{
+  "participant_means": {
+    "early_recovery": 0.39138797895333194,
+    "first_post_change": 0.26297390980145297,
+    "late_recovery": 0.4565948657510372,
+    "pre_change": 0.5514417973647648
+  },
+  "contrasts": [
+    {
+      "contrast": "first_post_change - pre_change",
+      "difference": -0.2884678875633119,
+      "ci_low": -0.33287764161966915,
+      "ci_high": -0.24525187014999164,
+      "participants": 242
+    },
+    {
+      "contrast": "early_recovery - first_post_change",
+      "difference": 0.12841406915187906,
+      "ci_low": 0.09685577889154841,
+      "ci_high": 0.1600102590294151,
+      "participants": 242
+    },
+    {
+      "contrast": "late_recovery - first_post_change",
+      "difference": 0.1945041286299007,
+      "ci_low": 0.15538509257315872,
+      "ci_high": 0.23325243260013587,
+      "participants": 239
+    }
+  ]
+}

@@ -25,3 +25,12 @@ venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+
+## Hackathon study: Bad Luck or a Changing World?
+
+Our focused study asks how people distinguish an isolated bad outcome from a genuine change in reward probability.
+
+- [Read the full English research document](BAD_LUCK_STUDY.md)
+- [Open the public visual research brief](https://555bighamsome.github.io/scpy/bad-luck.html)
+- [Inspect and reproduce the analysis](analysis/README.md)
+- [View the compact result tables](results/bad_luck_study/)

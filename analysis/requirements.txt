@@ -1,0 +1,7 @@
+jax
+matplotlib
+numpy
+optax
+pandas
+pytest
+scipy
