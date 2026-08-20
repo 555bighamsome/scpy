@@ -1,0 +1,14 @@
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore Python cache
+__pycache__/
+.ipynb_checkpoints/
+
+# Ignore data
+data/
+OSF/
+
+# Ignore OS junk
+.DS_Store
