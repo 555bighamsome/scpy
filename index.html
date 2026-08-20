@@ -41,6 +41,9 @@
     .subtitle { max-width: 790px; margin: 22px 0 0; color: #d6e6f0; font-size: 1.17rem; }
     .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
     .pill { padding: 7px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(255,255,255,.07); color: #edf8fb; font-size: .88rem; }
+    .language-bar { position: absolute; top: 20px; right: max(28px, calc((100vw - 1104px) / 2)); display: flex; gap: 6px; padding: 5px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(9,28,45,.38); backdrop-filter: blur(10px); }
+    .language-bar button { padding: 6px 11px; border: 0; border-radius: 999px; background: transparent; color: #d6e6f0; font: inherit; font-size: .8rem; font-weight: 800; cursor: pointer; }
+    .language-bar button:hover, .language-bar button[aria-pressed="true"] { background: white; color: var(--navy); }
     nav { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.94); backdrop-filter: blur(12px); }
     nav .shell { display: flex; gap: 22px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; }
     nav a { white-space: nowrap; color: var(--muted); font-size: .9rem; font-weight: 700; text-decoration: none; }
@@ -93,6 +96,8 @@
     summary { cursor: pointer; color: var(--navy); font-weight: 800; }
     footer { padding: 28px 0 48px; color: var(--muted); font-size: .86rem; }
     @media (max-width: 820px) {
+      .hero { padding-top: 92px; }
+      .language-bar { top: 18px; right: 18px; }
       .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .finding-grid { grid-template-columns: 1fr; }
       .model { grid-template-columns: 1fr; gap: 5px; }
@@ -109,6 +114,11 @@
 </head>
 <body>
   <header class="hero">
+    <div class="language-bar" aria-label="Language selector">
+      <button type="button" data-language="en" aria-pressed="true">English</button>
+      <button type="button" data-language="zh" aria-pressed="false">中文</button>
+      <button type="button" data-language="ja" aria-pressed="false">日本語</button>
+    </div>
     <div class="shell">
       <p class="kicker">IICCSSS 2026 · RL Masterclass</p>
       <h1>When Do Humans Change Their Minds?</h1>
@@ -269,5 +279,6 @@
   </main>
 
   <footer class="shell">Prepared from the currently available Azulejos OSF subset and the IICCSSS 2026 RL Masterclass repository. Preliminary results are intended for hypothesis generation.</footer>
+  <script src="translations.js"></script>
 </body>
 </html>
