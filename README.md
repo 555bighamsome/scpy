@@ -1,6 +1,6 @@
 # IICCSSS 2026 - Hackathon: RL Masterclass, Traditional vs Recurrent Modeling of Behavior
 
-This is the repository for the IICCSSS 2026 Hackathon on Traditional vs Recurrent Modeling of Behavior. It extends Sarah Master's work on the Azulejos dataset, which is a collection of behavioral data from bandit tasks. The goal of this hack is to explore and compare classical reinforcement-learning models with recurrent neural networks in modeling learning behavior.
+This is the repository for the IICCSSS 2026 Hackathon on Traditional vs Recurrent Modeling of Behavior. It extends Sarah Master's work on the Azulejos dataset, which is a collection of behavioral data from bandit tasks. The goal of this hack is to explore and compare classical reinforcement-learning models with recurrent neural networks in modeling learning behavior, and to explore the data to answer self-defined research questions. 
 
 Setup Recommendations:
 

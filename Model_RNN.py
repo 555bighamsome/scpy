@@ -102,30 +102,32 @@ class SimpleRNNModel(ModelInterface):
             raise ValueError("No valid sequences available after preprocessing.")
 
         flat_params, unravel_fn = ravel_pytree(self.params)
+        total_trials_static = sum(int(y_seq.shape[0]) for y_seq in y_list)
 
         def objective(flat_vector):
             params = unravel_fn(flat_vector)
             total_nll = 0.0
-            total_trials = 0
             for x_seq, y_seq in zip(x_list, y_list):
                 total_nll = total_nll + self._sequence_nll(params, x_seq, y_seq)
-                total_trials += int(y_seq.shape[0])
-            return total_nll / jnp.maximum(total_trials, 1)
+            return total_nll / jnp.maximum(total_trials_static, 1)
 
-        grad_fn = jax.grad(objective)
+        # Fuse forward+backward into one compiled program instead of two eager
+        # (uncompiled) passes; this is what previously made fitting very slow.
+        value_and_grad_fn = jax.value_and_grad(objective)
+
+        @jax.jit
+        def train_step(flat_vector, lr):
+            loss_value, grad_value = value_and_grad_fn(flat_vector)
+            grad_norm = jnp.linalg.norm(grad_value)
+            scale = jnp.minimum(1.0, 5.0 / (grad_norm + 1e-12))
+            flat_vector = flat_vector - lr * grad_value * scale
+            return flat_vector, loss_value
 
         self.loss_history = []
         current = flat_params
         for _ in range(self.n_epochs):
-            loss_value = float(objective(current))
-            grad_value = grad_fn(current)
-
-            grad_norm = float(jnp.linalg.norm(grad_value))
-            if grad_norm > 5.0:
-                grad_value = grad_value * (5.0 / grad_norm)
-
-            current = current - self.learning_rate * grad_value
-            self.loss_history.append(loss_value)
+            current, loss_value = train_step(current, self.learning_rate)
+            self.loss_history.append(float(loss_value))
 
         self.params = unravel_fn(current)
         self.is_fitted = True

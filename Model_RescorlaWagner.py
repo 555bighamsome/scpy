@@ -34,7 +34,9 @@ class RescorlaWagnerModel(ModelInterface):
 
         n_trials = len(actions)
         action_probs = np.zeros((n_trials, self.n_actions))
-        q_values = np.ones(self.n_actions) * 0.5
+        # initialize Q0 at the session's mean reward so the scale matches the actual rewards (not just [0,1])
+        initial_value = float(np.mean(rewards)) if len(rewards) > 0 else 0.5
+        q_values = np.ones(self.n_actions) * initial_value
 
         # tracking Q-values over time for get_latent_states()
         self.q_history = np.zeros((n_trials, self.n_actions))

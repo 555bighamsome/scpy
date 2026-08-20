@@ -248,7 +248,9 @@ class DataManager:
 
         action_lengths = task_df['actions'].apply(len)
         n_trials = int(action_lengths.max()) if not action_lengths.empty else 0
-        action_probs = np.zeros(int(task_df['n_actions'].iloc[0]), dtype=float)
+        n_actions = int(task_df['n_actions'].iloc[0])
+        reward_sums = np.zeros(n_actions, dtype=float)
+        reward_counts = np.zeros(n_actions, dtype=float)
         for idx in range(len(task_df)):
             seq = np.asarray(task_df.iloc[idx]['actions'], dtype=int)
             rewards = np.asarray(task_df.iloc[idx]['rewards'], dtype=float)
@@ -257,12 +259,17 @@ class DataManager:
                 seq = seq[valid]
                 rewards = rewards[valid]
             for action in np.unique(seq):
-                if 0 <= action < len(action_probs):
-                    action_probs[action] = np.mean(rewards[seq == action]) if np.any(seq == action) else 0.0
+                if 0 <= action < n_actions:
+                    action_mask = seq == action
+                    reward_sums[action] += np.sum(rewards[action_mask])
+                    reward_counts[action] += np.sum(action_mask)
+
+        # average reward per action across ALL sessions of this task (not just the last one)
+        action_probs = np.divide(reward_sums, reward_counts, out=np.zeros(n_actions, dtype=float), where=reward_counts > 0)
 
         return {
             "task_type": task_df['task_type'].iloc[0],
-            "n_actions": int(task_df['n_actions'].iloc[0]),
+            "n_actions": n_actions,
             "n_trials": n_trials,
             "action_reward_probs": action_probs,
         }
@@ -466,9 +473,9 @@ class DataManager:
             plt.plot(df['trial_number'], df['true_best_action'], color='gold', linestyle='--',
                      linewidth=2, alpha=0.6, label='True Best Action', zorder=0)
 
-        # 3. Separate data by reward outcome for distinct styling
-        rewards = df[df['reward_received'] == 1]
-        no_rewards = df[df['reward_received'] == 0]
+        # 3. Separate data by reward outcome for distinct styling (rewards may be points, not just 0/1)
+        rewards = df[df['reward_received'] > 0]
+        no_rewards = df[df['reward_received'] <= 0]
 
         plt.scatter(rewards['trial_number'], rewards['action_chosen'],
                     color='mediumseagreen', label='Reward', marker='o', s=60, alpha=0.9, zorder=2)
